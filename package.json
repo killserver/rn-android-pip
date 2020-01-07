@@ -1,0 +1,30 @@
+{
+  "name": "rn-android-pip",
+  "version": "0.1.0",
+  "description": "React Native Android PictureInPicture",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/killserver/rn-android-pip.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "pip",
+    "android"
+  ],
+  "author": "killserver",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/killserver/rn-android-pip/issues"
+  },
+  "homepage": "https://github.com/killserver/rn-android-pip#readme",
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-config-tipsi": "^12.0.0"
+  }
+}
