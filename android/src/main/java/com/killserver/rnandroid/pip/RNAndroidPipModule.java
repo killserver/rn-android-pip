@@ -16,15 +16,23 @@ import android.util.Log;
 import android.app.PictureInPictureParams.Builder;
 import android.app.Activity;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.bridge.WritableMap;
+
+import android.content.res.Configuration;
+
 public class RNAndroidPipModule extends ReactContextBaseJavaModule {
 
-  private static final String MODULE_NAME = "RNAndroidModule";
+  private static final String MODULE_NAME = "RNAndroidPipModule";
 
-  private final ReactApplicationContext reactContext;
+  private ReactContext mReactContext;
+  private int sizeW = 1;
+  private int sizeH = 1;
 
   public RNAndroidPipModule(ReactApplicationContext reactContext) {
     super(reactContext);
-    this.reactContext = reactContext;
+    mReactContext = reactContext;
   }
 
   @Override
@@ -35,6 +43,18 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule {
   @ReactMethod(isBlockingSynchronousMethod = true)
   public boolean isPictureInPictureSupported() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
+  }
+
+  @ReactMethod
+  public void isPictureInPictureSupportedAsync(Promise promise) {
+      promise.resolve(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1);
+  }
+
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  public boolean setSizePictureInPicture(int sizeW, int sizeH) {
+      this.sizeW = sizeW;
+      this.sizeH = sizeH;
+      return true;
   }
 
   public void enterPictureInPictureMode() {
@@ -48,16 +68,20 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule {
 
     Log.i("RNAndroidModule", "Entering Picture-in-Picture");
 
-    Builder builder = new Builder().setAspectRatio(new android.util.Rational(1, 1));
+    Builder builder = new Builder().setAspectRatio(new android.util.Rational(this.sizeW, this.sizeH));
 
     // https://developer.android.com/reference/android/app/Activity.html#enterPictureInPictureMode(android.app.PictureInPictureParams)
     //
     // The system may disallow entering picture-in-picture in various cases,
     // including when the activity is not visible, if the screen is locked
     // or if the user has an activity pinned.
-    if (!currentActivity.enterPictureInPictureMode(builder.build())) {
+    boolean entered = currentActivity.enterPictureInPictureMode(builder.build());
+    if (!entered) {
       throw new RuntimeException("Failed to enter Picture-in-Picture");
     }
+    getReactApplicationContext()
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+      .emit("onPictureInPictureModeChanged", entered);
   }
 
   @ReactMethod
