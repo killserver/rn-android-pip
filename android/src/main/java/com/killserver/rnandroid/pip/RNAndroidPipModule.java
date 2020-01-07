@@ -13,6 +13,7 @@ import java.util.Map;
 import android.os.Build;
 import com.facebook.react.bridge.Promise;
 import android.util.Log;
+import android.app.PictureInPictureParams;
 import android.app.Activity;
 
 public class RNAndroidModule extends ReactContextBaseJavaModule {
@@ -30,11 +31,11 @@ public class RNAndroidModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public boolean isPictureInPictureSupported() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
   }
 
   public void enterPictureInPictureMode() {
-    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
       throw new IllegalStateException("Picture-in-Picture not supported");
     }
     Activity currentActivity = getCurrentActivity();
@@ -44,7 +45,7 @@ public class RNAndroidModule extends ReactContextBaseJavaModule {
 
     Log.i("Entering Picture-in-Picture");
 
-    android.app.PictureInPictureParams.Builder builder = new android.app.PictureInPictureParams.Builder().setAspectRatio(new android.util.Rational(1, 1));
+    Builder builder = new Builder().setAspectRatio(new android.util.Rational(1, 1));
 
     // https://developer.android.com/reference/android/app/Activity.html#enterPictureInPictureMode(android.app.PictureInPictureParams)
     //
