@@ -13,6 +13,7 @@ import java.util.Map;
 import android.os.Build;
 import com.facebook.react.bridge.Promise;
 import android.util.Log;
+import android.app.Activity;
 
 public class RNAndroidModule extends ReactContextBaseJavaModule {
 
@@ -41,9 +42,9 @@ public class RNAndroidModule extends ReactContextBaseJavaModule {
       throw new IllegalStateException("No current Activity!");
     }
 
-    Log.i(TAG + " Entering Picture-in-Picture");
+    Log.i("Entering Picture-in-Picture");
 
-    android.app.PictureInPictureParams.Builder builder = new android.app.PictureInPictureParams.Builder().setAspectRatio(new Rational(1, 1));
+    android.app.PictureInPictureParams.Builder builder = new android.app.PictureInPictureParams.Builder().setAspectRatio(new android.util.Rational(1, 1));
 
     // https://developer.android.com/reference/android/app/Activity.html#enterPictureInPictureMode(android.app.PictureInPictureParams)
     //
@@ -56,7 +57,7 @@ public class RNAndroidModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void enterPictureInPicture() {
+  public void enterPictureInPicture(Promise promise) {
     try {
       enterPictureInPictureMode();
       promise.resolve(true);
