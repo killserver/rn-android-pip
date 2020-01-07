@@ -13,15 +13,18 @@ import java.util.Map;
 import android.os.Build;
 import com.facebook.react.bridge.Promise;
 import android.util.Log;
-import android.app.PictureInPictureParams;
+import android.app.PictureInPictureParams.Builder;
 import android.app.Activity;
 
-public class RNAndroidModule extends ReactContextBaseJavaModule {
+public class RNAndroidPipModule extends ReactContextBaseJavaModule {
 
   private static final String MODULE_NAME = "RNAndroidModule";
 
-  public RNAndroidModule(ReactApplicationContext reactContext) {
+  private final ReactApplicationContext reactContext;
+
+  public RNAndroidPipModule(ReactApplicationContext reactContext) {
     super(reactContext);
+    this.reactContext = reactContext;
   }
 
   @Override
@@ -43,7 +46,7 @@ public class RNAndroidModule extends ReactContextBaseJavaModule {
       throw new IllegalStateException("No current Activity!");
     }
 
-    Log.i("Entering Picture-in-Picture");
+    Log.i("RNAndroidModule", "Entering Picture-in-Picture");
 
     Builder builder = new Builder().setAspectRatio(new android.util.Rational(1, 1));
 
