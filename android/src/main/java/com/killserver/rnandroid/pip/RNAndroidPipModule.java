@@ -32,7 +32,7 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule {
     return MODULE_NAME;
   }
 
-  @ReactMethod
+  @ReactMethod(isBlockingSynchronousMethod = true)
   public boolean isPictureInPictureSupported() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
   }

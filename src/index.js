@@ -1,5 +1,4 @@
-import {
-  NativeModules,
-} from 'react-native'
+import { requireNativeComponent } from 'react-native';
 
-export { RNBoilerplateModule } = NativeModules
+// requireNativeComponent automatically resolves 'RNTMap' to 'RNTMapManager'
+module.exports = requireNativeComponent('RNBoilerplateModule');
