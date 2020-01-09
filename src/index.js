@@ -1,4 +1,4 @@
-import { requireNativeComponent } from 'react-native';
+import { NativeModules } from 'react-native';
 
 // requireNativeComponent automatically resolves 'RNTMap' to 'RNTMapManager'
-module.exports = requireNativeComponent('RNAndroidPipModule');
+module.exports = NativeModules.RNAndroidPipModule;
